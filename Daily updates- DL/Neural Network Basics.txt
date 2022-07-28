@@ -1,0 +1,69 @@
+Introduction:
+
+Why Depth?
+-To understand the math
+-To understand theory
+
+4 sections
+
+1)What is NN?
+2)How does NN learn?
+3)Issues- visualization, Generalization
+4)Project- real world dataset
+
+-This is just the beginning of NN journey
+
+
+Basics Review:
+		○ ML problems are Some kind of geometry problem
+		○ Binary classification
+	
+	Logistic Regression:
+		○ Numpy Dot operation is faster a.dot(b)
+		○ Neorons is a bunch of Logistic regression models
+	
+	Neuron Training:
+		○ Leaning means finding the appropriate weights
+		○ Central component is cost/loss function 
+		○ All in all we are solving a maximum likelihood problem
+		○ Binary cross entropy= negative log likelihood => get likelihood, take log of the same, negate it
+		○ Nomenclature - t for target and y for model prediction
+		○ Find the loss function => may  be binary cross entropy and perform operation, w=w- (eta * partial derivative of J wrt w)
+		○ Conjugate gradient, L-BFGS- These methods exists, but we don't use them in DL
+		○ Partial derivative of loss function gets us the direction to traverse
+		○ We can maximize or Minimize the cost value 
+		○ Regularization- L1(encourages sparsity) or L2(encourages small weight) - This ensures, weights do not go to infinity
+		○ => No longer maximum likelihood, but we are doing MAP(Maximum a posteriori)
+	
+	#Readiness Test:
+	
+From Neurons to Neural Network:
+
+	Architecture:
+		○ One input layer and one output layer
+		○ One or more hidden layers
+		○ Every node in one layer is connected to every node in next layer
+		○ Signals pass from Input-> hidden -> output layer
+		○ Higher weight= stronger connection 
+		○ Training is backpropagation
+
+Classifying more than 2 things at a time:
+
+	- Linearly separable - when two classes can be divided by a straight line
+	- Logistic regression is a linear classifier 
+	- Binary vs multi class classification: Sigmoid vs Softmax
+
+Logistic Regression to NN:
+
+	- 1 hidden layer: Each of these neurons is a Logistic regression model or a Perceptron
+
+Non interpretability of Neural Network boils down to Lack of understanding of Geometry
+
+	- Sigmoid, Tanh, Softmax Makes it non linear
+	- The Fact that after the first neurons, the weights loses direct interpretability, makes neural network a very powerful technique
+	- If we interpret the weights individually, it may not make complete sense 
+
+Softmax:
+
+	- When output has multiple classes
+	- Softmax= Sigmoid when k=2
