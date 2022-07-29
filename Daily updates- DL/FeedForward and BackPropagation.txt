@@ -1,0 +1,38 @@
+Feedforward:
+
+	- X is a N*D matrix. Where N is number rows and D is number of columns !
+	- Input neurons=Number of columns in dataframe
+	- Output - If binary-> only one neuron would do !
+	- Hidden layer depends !
+	- Input to hidden Weights matrix: 2*3=first layer*second layer
+	- Hidden to Output weight = Hidden neurons*Output neurons is the shape of it. =>3*1
+	- Activation function
+	- y=sigmoid(tanh(XW+b)V+c)
+
+	- Sigmoid to Softmax - binary class to multi class classification model
+	- Output layer- number of classes
+	- Output matrix is a N*K matrix. But it is an indicator matrix
+	- Output of a sigmoid is always between 0 and 1
+
+	- Softmax outputs probabilities
+	- Softmax is used for Multiclass classification. Each output unit will have a probability associated with it. If the probability 
+of a select node is higher than threshold, we identify this sample belongs to the category
+	- Sum of probabilities of each node is =1
+	- Argmax tells us the location of the biggest value or the max value
+
+	
+BackPropagation
+	
+	- T is target
+	- Ws are for weights
+	- B is for bias
+	- What does it mean to train a neural network ?
+	- Find a loss function or a cost function 
+	- Find the weights that are going to minimize the costs
+	- How to minimize loss- Gradient descent ..
+	- W=W-eta*partial derivative of (L)
+
+     Steps to implement Backpropagation
+	- Define a loss function
+	- Get dj/dw, get some expression to update Weight
+Run in loop
