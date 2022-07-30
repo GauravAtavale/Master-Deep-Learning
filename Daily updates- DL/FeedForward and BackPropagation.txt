@@ -36,3 +36,25 @@ BackPropagation
 	- Define a loss function
 	- Get dj/dw, get some expression to update Weight
 Run in loop
+
+Cost function to be minimized in NN
+-SSE- Sum of squared error
+-Minimizing the error is same as maximizing Likelihood, when error is gaussian distributed !
+-Another loss function - For classification - Binary cross entropy - cost function 
+-Log likelihood equivalence of this Binary cross entropy is Bernoulli distributed !
+
+-For both classification and regression tasks, loss function is equal to the negative log-likelihood
+- MLE for die roll- Categorical distribution.
+
+-Loss = Negative log likelihood
+- Maximizing log likelihood is the same as minimizing the negative log likelihood
+
+
+Logistic Regression with Softmax
+
+-> Logistic regression can give us multiclass classification results ! Called Multiclass Logistic regression
+->Kronecker delta function
+
+->After a long simplification - Algebric notation of Partial derivative of loss function = XT *(Target- Y_pred)
+
+-> Categorical cross entropy
