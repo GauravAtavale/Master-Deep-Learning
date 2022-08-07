@@ -1,0 +1,24 @@
+More layers
+
+-More than one hidden layer
+-Law of total derivatives still holds
+-Nothing new to derive in comparison to 2 layers. Replacing a symbol with other symbols
+-Still using sigmoid activation function
+-X would be replaced by Z1 … while we do backpropagation !
+-Two function at each layer=> 
+	1) a1=W.T*X+b
+	2)Z=Sigma(a1)
+
+-The calculations are recursive. We can reuse the previous calculations
+-There is a recursive expression to calculate Delta of each layer
+
+-Any ML Algorithm is about train and predict !
+-IN NN, training means finding the best weights that minimizes the cost function
+-Backpropagation is the fancy name for gradient descent in NN
+
+Practical Machine Learning
+
+- NN are non-linear classifiers
+- Classic examples of NN are XOR and Donut problem
+-hyperParameters in NN are- #Hidden layers, #Hidden layer Units, Type of activation function
+-Practical tips for choosing hyperParameters
