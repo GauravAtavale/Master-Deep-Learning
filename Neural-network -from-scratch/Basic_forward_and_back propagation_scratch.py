@@ -94,48 +94,90 @@ def BinaryCrossEntropy(y_true, y_pred):
     return -np.mean(term_0+term_1, axis=0)
 
 
-# Define initial weights 
-W1 = np.random.randn(X_train.shape[1], 64 )
-b1 = np.zeros((64,1))
-W2 = np.random.randn(64, 1)
-b2 = np.zeros((1, 1))
+# Define initial weights
+hidden_layer_n = 32
+hidden_layer_v2_n = 1024
+
+W1 = np.random.randn(X_train.shape[1], hidden_layer_n )
+# b1 = np.zeros(hidden_layer_n)
+b1 = np.random.randn(hidden_layer_n)
+
+#Add another layer with same number of neurons
+W2 = np.random.randn(hidden_layer_n, hidden_layer_v2_n)
+#b2 = np.zeros(hidden_layer_v2_n)
+b2 = np.random.randn(hidden_layer_v2_n)
+
+W3 = np.random.randn(hidden_layer_v2_n, 1)
+# b3 = np.zeros((1, 1))
+b3 = np.random.randn(1, 1)
 
 scores = []
-for i in range(3):
+accuracy_benchmark = 0
+#for i in range(100):
+i=0    
+while (accuracy_benchmark<0.83):
+    i=i+1
     # forward propagation
     
     # for i in range(10):
         
-    Z1 = np.matmul(X_train, W1)
+    Z1 = np.matmul(X_train, W1) 
     A1 = sigmoid(Z1)
     Z2 = np.matmul(A1, W2)
     A2 = sigmoid(Z2)
+    Z3 = np.matmul(A2, W3)
+    A3 = sigmoid(Z3)
     
     result=[]
-    for each in np.array(A2).reshape(980):
+    for each in np.array(A3).reshape(980):
         result.append(1 if each>=0.5 else 0)
     
-    loss = BinaryCrossEntropy(y_train, np.array(A2).reshape(980))
+    #loss = BinaryCrossEntropy(y_train, np.array(A3).reshape(980))
     print(i,accuracy_score(y_train, result))
     scores.append(accuracy_score(y_train, result))
+    if accuracy_score(y_train, result) > accuracy_benchmark:
+        accuracy_benchmark = accuracy_score(y_train, result)
+        best_W1 = W1
+        best_W2 = W2
+        best_W3 = W3
+    
     # Backpropagation 
     
-    db2_temp = A2 - np.array(y_train).reshape((len(y_train),1))
-    db2 = np.sum(db2_temp, axis=0)
+    # db2_temp = A2 - np.array(y_train).reshape((len(y_train),1))
+    # db2 = np.sum(db2_temp, axis=0)
     
-    dW2 = A1.T @ db2_temp
+    # dW2 = A1.T @ db2_temp
+    
+    # db1_temp = db2_temp @ W2.T
+    
+    # db1_temp[A1 <= 0] = 0
+    
+    # db1 = np.sum(db1_temp, axis=0)
+        
+    # dW1 = X_train.T @ db1_temp
+    
+    db3_temp = A3 - np.array(y_train).reshape((len(y_train),1))
+    db3 = np.sum(db3_temp, axis=0)
+    dW3 = A2.T @ db3_temp
+    
+    db2_temp = db3_temp @ W3.T
+    db2_temp[A2 <= 0] = 0
+    db2 = np.sum(db2_temp, axis=0)
+    dW2 = A1.T @ db3_temp
     
     db1_temp = db2_temp @ W2.T
-    
     db1_temp[A1 <= 0] = 0
-    
     db1 = np.sum(db1_temp, axis=0)
-        
+    
     dW1 = X_train.T @ db1_temp
     
-    learning_rate=0.001
-    W1,W2 = W1 - learning_rate*dW1, W2- learning_rate*dW2
+    if i<10:
+        learning_rate=0.001
+    else:
+        learning_rate=0.000001
+    
+    
+    W1,W2,W3 = W1 - learning_rate*dW1, W2- learning_rate*dW2, W3- learning_rate*dW3
+    #b1,b2,b3 = b1 + learning_rate*db1, b2+ learning_rate*db2, b3+ learning_rate*db3
 
-len(scores)
-plt.plot(scores)
-
+print("Best Accuracy:",accuracy_benchmark)
