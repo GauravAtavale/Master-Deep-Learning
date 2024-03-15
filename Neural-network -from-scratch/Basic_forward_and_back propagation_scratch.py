@@ -181,3 +181,122 @@ while (accuracy_benchmark<0.83):
     #b1,b2,b3 = b1 + learning_rate*db1, b2+ learning_rate*db2, b3+ learning_rate*db3
 
 print("Best Accuracy:",accuracy_benchmark)
+
+
+"""-------------------------------------------- EXPERIMENTING- Trying to run with holdout data for diferent iterations --------------------------------------------------"""
+#Like batch run. Need to implement softmax for the final layer tomorrow
+
+# Define initial weights 
+
+hidden_layer_n = 32
+hidden_layer_v2_n = 1024
+
+W1 = np.random.randn(X_train.shape[1], hidden_layer_n )
+# b1 = np.zeros(hidden_layer_n)
+b1 = np.random.randn(hidden_layer_n)
+
+#Add another layer with same number of neurons
+W2 = np.random.randn(hidden_layer_n, hidden_layer_v2_n)
+#b2 = np.zeros(hidden_layer_v2_n)
+b2 = np.random.randn(hidden_layer_v2_n)
+
+W3 = np.random.randn(hidden_layer_v2_n, 1)
+# b3 = np.zeros((1, 1))
+b3 = np.random.randn(1, 1)
+
+scores = []
+accuracy_benchmark = 0
+#for i in range(100):
+    
+X_train_MASTER = X_train.copy()
+    
+i=0    
+while (accuracy_benchmark<0.85):
+    i=i+1
+    
+    if i< 1000:
+        X_train = X_train_MASTER[0:245]
+    elif i<2000:
+        X_train = X_train_MASTER[0:490]
+    elif i<3000:
+        X_train = X_train_MASTER[0:735]        
+    else:
+        X_train = X_train_MASTER
+    
+    
+    # forward propagation
+    
+    # for i in range(10):
+        
+    Z1 = np.matmul(X_train, W1) 
+    A1 = sigmoid(Z1)
+    Z2 = np.matmul(A1, W2)
+    A2 = sigmoid(Z2)
+    Z3 = np.matmul(A2, W3)
+    A3 = sigmoid(Z3)
+    
+    # result=[]
+    # for each in np.array(A3).reshape(980):
+    #     result.append(1 if each>=0.5 else 0)
+        
+    result=[]
+    Z1_dummy = np.matmul(X_train_MASTER, W1) 
+    A1_dummy = sigmoid(Z1_dummy)
+    Z2_dummy = np.matmul(A1_dummy, W2)
+    A2_dummy = sigmoid(Z2_dummy)
+    Z3_dummy = np.matmul(A2_dummy, W3)
+    A3_dummy = sigmoid(Z3_dummy)
+    
+    
+    for each in np.array(A3_dummy).reshape(980):
+        result.append(1 if each>=0.5 else 0)        
+        
+    
+    #loss = BinaryCrossEntropy(y_train, np.array(A3).reshape(980))
+    print(i,accuracy_score(y_train, result))
+    scores.append(accuracy_score(y_train, result))
+    if accuracy_score(y_train, result) > accuracy_benchmark:
+        accuracy_benchmark = accuracy_score(y_train, result)
+        best_W1 = W1
+        best_W2 = W2
+        best_W3 = W3
+    
+    # Backpropagation 
+    
+    # If it was just one hidden layer
+    # db2_temp = A2 - np.array(y_train).reshape((len(y_train),1))
+    # db2 = np.sum(db2_temp, axis=0)
+    # dW2 = A1.T @ db2_temp
+    # db1_temp = db2_temp @ W2.T
+    # db1_temp[A1 <= 0] = 0
+    # db1 = np.sum(db1_temp, axis=0)        
+    # dW1 = X_train.T @ db1_temp
+    
+    # Two hidden layer
+    #db3_temp = A3 - np.array(y_train).reshape((len(y_train),1))
+    db3_temp = A3 - np.array(y_train[0:A3.shape[0]]).reshape((len(y_train[0:A3.shape[0]]),1))
+    db3 = np.sum(db3_temp, axis=0)
+    dW3 = A2.T @ db3_temp
+    
+    db2_temp = db3_temp @ W3.T
+    db2_temp[A2 <= 0] = 0
+    db2 = np.sum(db2_temp, axis=0)
+    dW2 = A1.T @ db3_temp
+    
+    db1_temp = db2_temp @ W2.T
+    db1_temp[A1 <= 0] = 0
+    db1 = np.sum(db1_temp, axis=0)
+    
+    dW1 = X_train.T @ db1_temp
+    
+    if i<10:
+        learning_rate=0.001
+    else:
+        learning_rate=0.000001
+    
+    
+    W1,W2,W3 = W1 - learning_rate*dW1, W2- learning_rate*dW2, W3- learning_rate*dW3
+    #b1,b2,b3 = b1 + learning_rate*db1, b2+ learning_rate*db2, b3+ learning_rate*db3
+
+print("Best Accuracy:",accuracy_benchmark)
+
