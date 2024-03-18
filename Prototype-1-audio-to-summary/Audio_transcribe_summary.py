@@ -104,7 +104,7 @@ summarize_text(result)
 summarize_text("Never make this serious mistake in Python. Imagine you have a list called X and suppose you want to loop through this list. So, you're using for x in X, print x. Let's also indicate the end of the loop. When we run this, it will run perfectly fine. It will loop through the list, printing the value of x every time it iterates. However, at the same time, you have actually made a mistake. Now, if you want to append another element to the list—let's say 6—we are going to encounter an issue. This is because when we initially created the list X, as soon as we run the loop, it will iterate through each value of x. That's the issue.",2)
 
 #Open AI keys
-openai.api_ket= "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"
+openai.api_ket= "-------------------------"
 model_engine= "text-davince-003"
 prompt = "Hello, how are you?"
 
@@ -120,7 +120,7 @@ from openai import OpenAI
 
 
 from openai import OpenAI
-client = OpenAI(api_key="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")
+client = OpenAI(api_key="-------------------------")
 
 completion = client.chat.completions.create(
   model="gpt-3.5-turbo",
