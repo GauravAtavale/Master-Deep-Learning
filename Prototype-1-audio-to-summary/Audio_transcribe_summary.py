@@ -9,6 +9,7 @@ import speech_recognition as sr
 import shutil
 from deepmultilingualpunctuation import PunctuationModel
 import openai
+import google.generativeai as genai
 
 # Reference 
 # https://github.com/Uberi/speech_recognition/blob/master/examples/audio_transcribe.py
@@ -103,32 +104,20 @@ summarize_text(result)
  
 summarize_text("Never make this serious mistake in Python. Imagine you have a list called X and suppose you want to loop through this list. So, you're using for x in X, print x. Let's also indicate the end of the loop. When we run this, it will run perfectly fine. It will loop through the list, printing the value of x every time it iterates. However, at the same time, you have actually made a mistake. Now, if you want to append another element to the list—let's say 6—we are going to encounter an issue. This is because when we initially created the list X, as soon as we run the loop, it will iterate through each value of x. That's the issue.",2)
 
-#Open AI keys
-openai.api_ket= "-------------------------"
-model_engine= "text-davince-003"
-prompt = "Hello, how are you?"
+genai.configure(api_key = "---------")
 
-openai.ChatCompletion.create(
-    model = "gpt-3.5-turbo-1106",
-    prompt = prompt,
-    max_tokens = 150,
-    n=1,
-    stop = None,
-    temperature = 0.5,)
+gneration_config = {
+    "temperature" : 0.9,
+    "top_p" : 1,
+    "top_k":1,
+    "max_output_tokens" : 2048,
+    }
 
-from openai import OpenAI
+model = genai.GenerativeModel(model_name = "gemini-1.0-pro")
+
+response = model.generate_content(f'Give me appropriate punctuations to this - {audio_to_text}')
+
+f'Give me appropriate punctuations to this - {audio_to_text}'
 
 
-from openai import OpenAI
-client = OpenAI(api_key="-------------------------")
-
-completion = client.chat.completions.create(
-  model="gpt-3.5-turbo",
-  messages=[
-    {"role": "system", "content": "You are a poetic assistant, skilled in explaining complex programming concepts with creative flair."},
-    {"role": "user", "content": "Compose a poem that explains the concept of recursion in programming."}
-  ]
-)
-
-print(completion.choices[0].message)
-
+print(response.text)
